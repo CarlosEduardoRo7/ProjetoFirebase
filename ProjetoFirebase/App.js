@@ -8,12 +8,15 @@ import Entypo from '@expo/vector-icons/Entypo';
 import Login from "./Screens/Login";
 import Home from "./Screens/Home";
 import AddProdutos from "./Screens/AddProduto";
+import EditProduct from "./Screens/EditProduct";
 
 function TabNavigate(){
   const Tab = createBottomTabNavigator();
   return(
     <Tab.Navigator>
+
       <Tab.Screen name="Home" component={Home}/>
+
     </Tab.Navigator>
   )
 }
@@ -28,6 +31,7 @@ export default function App() {
         <Stack.Screen name="Login" component={Login}/>
         <Stack.Screen name="Home" component={TabNavigate}/>
         <Stack.Screen name="AddProdutos" component={AddProdutos}/>
+        <Stack.Screen name="EditProduct" component={EditProduct}/>
       </Stack.Navigator>
 
     </NavigationContainer>

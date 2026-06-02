@@ -1,4 +1,4 @@
-import {View, Text, TextInput, Button} from 'react-native';
+import {View, Text, TextInput, Button, Alert} from 'react-native';
 import { database } from '../firebaseConfig';
 import {useState} from 'react';
 
@@ -43,7 +43,7 @@ export default function AddProdutos() {
             />
 
             <TextInput
-            placeholder="URL do imagem"
+            placeholder="URL da imagem"
             value={imagem}
             onChangeText={setImagem}
             />

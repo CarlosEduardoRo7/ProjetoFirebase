@@ -1,4 +1,4 @@
-import { View, Text, Image, StyleSheet } from 'react-native';
+import { View, Text, Image, StyleSheet, Alert } from 'react-native';
 import { Button, TextInput } from 'react-native';
 import { useState } from 'react';
 import { firebaseConfig } from "../firebaseConfig";

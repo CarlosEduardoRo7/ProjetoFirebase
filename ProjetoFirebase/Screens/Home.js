@@ -1,9 +1,10 @@
-import { View, Text, StyleSheet, Button, FlatList} from 'react-native';
+import { View, Text, StyleSheet, Button, FlatList, Alert } from 'react-native';
 import { useState, useEffect } from 'react';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, deleteDoc, doc } from 'firebase/firestore';
 
 import { database } from '../firebaseConfig';
 import CardProduct from '../Components/Card';
+import { ScrollView } from 'react-native-web';
 
 export default function Home({ navigation }) {
 
@@ -27,28 +28,45 @@ export default function Home({ navigation }) {
         carregarProduto();
     }, []);
 
+    async function ExcluirProdutos(id) {
+        try {
+            await deleteDoc(doc(database, 'produtos', id))
+            setProdutos(prev => prev.filter(p => p.id !== id));
+        } catch (error) {
+            Alert.alert('error, não foi possível deletar o produto')
+            console.log(error)
+        }
+    }
+
+    function EditarProdutos(produto) {
+        navigation.navigate('EditProduct', { produto })
+    }
     return (
         <View style={styles.container}>
             <Text style={styles.txt}>Produtos</Text>
+            
+            <Button
+                title="Add Produto"
+                color="#1900ff"
+                onPress={() => navigation.navigate('AddProdutos')}
+            />
+
             <View style={styles.card}>
                 <FlatList
                     data={produtos}
                     renderItem={({ item }) => (
                         <CardProduct
-                            nome={item.nome}                                                        
+                            nome={item.nome}
                             valor={item.valor}
                             imagem={item.imagem}
+                            Excluir={() => ExcluirProdutos(item.id)}
+                            Editar={() => EditarProdutos(item)}
                         />
                     )}
                     keyExtractor={item => item.id}
                 />
             </View>
 
-            <Button
-                title="Add Produto"
-                color="#1900ff"
-                onPress={() => navigation.navigate('AddProdutos')}
-            />
         </View>
     );
 }
@@ -67,10 +85,12 @@ const styles = StyleSheet.create({
         textAlign: 'justify'
     },
     card: {
-        alignItems: 'center',
-        padding: 10,
-        borderBottomWidth: 1,
-        borderBottomColor: '#ccc',
-        width: '100%'
+        backgroundColor: '#ffffff',
+        borderRadius: 8,
+        borderWidth: 1,
+        borderColor: '#e1e1e1',
+        padding: 16,
+        marginVertical: 6,
+        width: '100%',
     }
 });
